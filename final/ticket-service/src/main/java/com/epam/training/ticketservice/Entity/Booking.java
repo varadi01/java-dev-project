@@ -1,5 +1,6 @@
 package com.epam.training.ticketservice.Entity;
 
+import com.epam.training.ticketservice.Utils.PriceComponentAttachable;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,7 +10,7 @@ import javax.persistence.*;
 @Table(name = "booking")
 @Data
 @NoArgsConstructor
-public class Booking {
+public class Booking implements PriceComponentAttachable {
 
     @Id
     private Long id;

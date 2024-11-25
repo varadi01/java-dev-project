@@ -1,5 +1,6 @@
 package com.epam.training.ticketservice.Entity;
 
+import com.epam.training.ticketservice.Utils.PriceComponentAttachable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,7 @@ import java.util.Collection;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Screening {
+public class Screening implements PriceComponentAttachable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,6 +29,9 @@ public class Screening {
     private Room room;
 
     private LocalDateTime startDateAndTime;
+
+    @ManyToOne
+    private PriceComponent priceComponent;
 
     @OneToMany
     private Collection<Booking> bookings;

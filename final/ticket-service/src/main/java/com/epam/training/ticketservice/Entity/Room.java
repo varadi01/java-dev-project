@@ -1,5 +1,6 @@
 package com.epam.training.ticketservice.Entity;
 
+import com.epam.training.ticketservice.Utils.PriceComponentAttachable;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Formula;
@@ -11,7 +12,7 @@ import java.util.Collection;
 @Table(name = "room")
 @Data
 @NoArgsConstructor
-public class Room {
+public class Room implements PriceComponentAttachable {
 
     @Id
     private String name;
