@@ -28,7 +28,7 @@ public class Screening implements PriceComponentAttachable {
     @JoinColumn(name = "room_name")
     private Room room;
 
-    private LocalDateTime startDateAndTime;
+    private LocalDateTime startDateTime;
 
     @ManyToOne
     private PriceComponent priceComponent;

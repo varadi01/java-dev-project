@@ -18,6 +18,10 @@ public class MovieService {
         return movieRepository.findAll();
     }
 
+    public Movie getMovieByTitle(String title) {
+        return movieRepository.findByTitle(title);
+    }
+
     public void SaveMovie(Movie movie) {
         movieRepository.save(movie);
     }

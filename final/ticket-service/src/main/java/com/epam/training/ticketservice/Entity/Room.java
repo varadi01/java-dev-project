@@ -26,4 +26,8 @@ public class Room implements PriceComponentAttachable {
 
     @ManyToOne
     private PriceComponent priceComponent;
+
+    public PriceComponent getPriceComponent() {
+        return priceComponent != null ? priceComponent : new PriceComponent("_", 0);
+    }
 }

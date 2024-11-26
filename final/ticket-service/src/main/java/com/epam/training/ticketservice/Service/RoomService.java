@@ -18,6 +18,10 @@ public class RoomService {
         return roomRepository.findAll();
     }
 
+    public Room getRoomByName(String name) {
+        return roomRepository.findByName(name);
+    }
+
     public void saveRoom(Room room) {
         roomRepository.save(room);
     }
