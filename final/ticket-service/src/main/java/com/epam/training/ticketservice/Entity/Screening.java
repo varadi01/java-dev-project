@@ -13,7 +13,6 @@ import java.util.Collection;
 @Table(name = "screening")
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class Screening implements PriceComponentAttachable {
 
     @Id
@@ -35,4 +34,25 @@ public class Screening implements PriceComponentAttachable {
 
     @OneToMany
     private Collection<Booking> bookings;
+
+    public Screening(Movie movie, Room room, LocalDateTime startDateTime) {
+        this.movie = movie;
+        this.room = room;
+        this.startDateTime = startDateTime;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder();
+        sb.append(movie.getTitle());
+        sb.append(" (");
+        sb.append(movie.getGenre());
+        sb.append(", ");
+        sb.append(movie.getLengthInMinutes());
+        sb.append(" minutes), screened in room ");
+        sb.append(room.getName());
+        sb.append(", at ");
+        sb.append(startDateTime.toString().replace("T", " "));
+        return sb.toString();
+    }
 }

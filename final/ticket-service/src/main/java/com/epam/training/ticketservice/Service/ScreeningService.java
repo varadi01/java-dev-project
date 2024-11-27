@@ -6,6 +6,7 @@ import com.epam.training.ticketservice.Entity.Screening;
 import com.epam.training.ticketservice.Repository.ScreeningRepository;
 import com.epam.training.ticketservice.Utils.Exceptions.ScreeningException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,7 +23,7 @@ public class ScreeningService {
         return screeningRepository.findAll();
     }
 
-    public Screening getScreeningByParameters(Room room, Movie movie, LocalDateTime dateTime) {
+    public Screening getScreeningByParameters(Movie movie, Room room, LocalDateTime dateTime) {
         return screeningRepository.findScreeningByRoomAndMovieAndStartDateTime(room, movie, dateTime);
     }
 
@@ -44,7 +45,7 @@ public class ScreeningService {
                 throw new ScreeningException("There is an overlapping screening");
             }
 
-            if (exEndTime.plusMinutes(10).isAfter(startTime)){
+            if (exEndTime.plusMinutes(11).isAfter(startTime)){
                 throw new ScreeningException("This would start in the break period after another screening in this room");
             }
         }
@@ -52,6 +53,7 @@ public class ScreeningService {
         screeningRepository.save(screening);
     }
 
+    @Transactional
     public void deleteScreening(Long screeningId) {
         screeningRepository.deleteById(screeningId);
     }

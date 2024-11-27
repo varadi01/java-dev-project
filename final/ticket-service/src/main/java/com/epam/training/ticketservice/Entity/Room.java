@@ -21,13 +21,35 @@ public class Room implements PriceComponentAttachable {
 
     private int numberOfSeatColumns;
 
-    @Formula("numberOfSeatRows*numberOfSeatColumns")
-    private int numberOfSeats;
-
     @ManyToOne
     private PriceComponent priceComponent;
 
     public PriceComponent getPriceComponent() {
         return priceComponent != null ? priceComponent : new PriceComponent("_", 0);
+    }
+
+    public int getNumberOfSeats() {
+        return numberOfSeatRows * numberOfSeatColumns;
+    }
+
+    public Room(String name, int numberOfSeatRows, int numberOfSeatColumns) {
+        this.name = name;
+        this.numberOfSeatRows = numberOfSeatRows;
+        this.numberOfSeatColumns = numberOfSeatColumns;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder();
+        sb.append("Room ");
+        sb.append(this.name);
+        sb.append(" with ");
+        sb.append(this.getNumberOfSeats());
+        sb.append(" seats, ");
+        sb.append(numberOfSeatRows);
+        sb.append(" rows and ");
+        sb.append(numberOfSeatColumns);
+        sb.append(" columns");
+        return sb.toString();
     }
 }

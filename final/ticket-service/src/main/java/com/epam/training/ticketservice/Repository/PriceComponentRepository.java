@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PriceComponentRepository extends JpaRepository<PriceComponent, String> {
+
+    public PriceComponent findByName(String name);
 }

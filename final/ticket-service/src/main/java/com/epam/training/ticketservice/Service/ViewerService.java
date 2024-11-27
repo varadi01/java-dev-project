@@ -3,22 +3,27 @@ package com.epam.training.ticketservice.Service;
 import com.epam.training.ticketservice.Entity.Viewer;
 import com.epam.training.ticketservice.Repository.ViewerRepository;
 import com.epam.training.ticketservice.Utils.Exceptions.ViewerException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class ViewerService {
     private final ViewerRepository viewerRepository;
 
-    private boolean isSignedIn;
-    private boolean isSignedInAsPrivileged;
+    private final BookingService bookingService;
+
+    private boolean isSignedIn = false;
+    private boolean isSignedInAsPrivileged = false;
 
     private Viewer signedInAs;
 
-    public ViewerService(ViewerRepository viewerRepository) {
-        this.viewerRepository = viewerRepository;
-    }
+    public void signupViewer(Viewer viewer) throws ViewerException {
+        var user = viewerRepository.findByUsername(viewer.getUsername());
 
-    public void signupViewer(Viewer viewer) {
+        if (user.isPresent()){
+            throw new ViewerException("User with such a name already exists");
+        }
         viewerRepository.save(viewer);
     }
 
@@ -49,17 +54,38 @@ public class ViewerService {
         }
     }
 
-    public void signOutViewer(Viewer viewer) {
+    public void signOutViewer() {
         signedInAs = null;
         isSignedIn = false;
         isSignedInAsPrivileged = false;
     }
 
-    public String describe(Viewer viewer) {
-        //TODO list bookings
+    public String describe() {
         if (isSignedInAsPrivileged) {
             return "Signed in with privileged account '" + signedInAs.getUsername() + "'";
         }
-        return "Signed in with account '" + signedInAs.getUsername() + "'";
+
+        var bookings = bookingService.getBookingsByViewer(signedInAs.getUsername());
+
+        if (bookings.isEmpty()) {
+            return "You have not booked any tickets yet";
+        }
+        var sb = new StringBuilder("Signed in with account '" + signedInAs.getUsername() + "'");
+        for (var booking : bookings) {
+            sb.append(booking.toString()).append("\n");
+        }
+        return sb.toString();
+    }
+
+    public Boolean isSignedInAsPrivileged() {
+        return isSignedInAsPrivileged;
+    }
+
+    public Boolean isSignedIn() {
+        return isSignedIn;
+    }
+
+    public Viewer getSignedInViewer() {
+        return signedInAs;
     }
 }

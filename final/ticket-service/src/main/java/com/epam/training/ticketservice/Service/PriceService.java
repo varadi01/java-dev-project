@@ -46,13 +46,17 @@ public class PriceService {
         target.setPriceComponent(priceComponent);
     }
 
+    public PriceComponent getPriceComponentByName(String name){
+        return priceComponentRepository.findByName(name);
+    }
+
     public int getTicketPrice(String movieTitle, String roomName, LocalDateTime startDateTime){
         int totalPrice = Integer.parseInt(singletonValueService.getSingletonValueByName("base_price").getValue());
 
         //meh
         Room room = roomService.getRoomByName(roomName);
         Movie movie = movieService.getMovieByTitle(movieTitle);
-        Screening screening = screeningService.getScreeningByParameters(room, movie, startDateTime);
+        Screening screening = screeningService.getScreeningByParameters(movie, room, startDateTime);
 
         //TODO i did something but it still might be nullreference
         totalPrice += room.getPriceComponent().getValue() +

@@ -3,6 +3,7 @@ package com.epam.training.ticketservice.Service;
 import com.epam.training.ticketservice.Entity.Movie;
 import com.epam.training.ticketservice.Repository.MovieRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,14 +23,15 @@ public class MovieService {
         return movieRepository.findByTitle(title);
     }
 
-    public void SaveMovie(Movie movie) {
+    public void saveMovie(Movie movie) {
         movieRepository.save(movie);
     }
 
-    public void UpdateMovie(Movie movie) {
+    public void updateMovie(Movie movie) {
         movieRepository.save(movie);
     }
 
+    @Transactional
     public void deleteMovie(String movieTitle) {
         movieRepository.deleteByTitle(movieTitle);
     }
