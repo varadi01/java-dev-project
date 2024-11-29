@@ -3,7 +3,12 @@ package com.epam.training.ticketservice.ui.command;
 import com.epam.training.ticketservice.entity.Booking;
 import com.epam.training.ticketservice.entity.Movie;
 import com.epam.training.ticketservice.entity.Room;
-import com.epam.training.ticketservice.service.*;
+import com.epam.training.ticketservice.service.BookingService;
+import com.epam.training.ticketservice.service.ViewerService;
+import com.epam.training.ticketservice.service.ScreeningService;
+import com.epam.training.ticketservice.service.MovieService;
+import com.epam.training.ticketservice.service.RoomService;
+import com.epam.training.ticketservice.service.PriceService;
 import com.epam.training.ticketservice.utils.DateConverter;
 import com.epam.training.ticketservice.utils.exceptions.BookingException;
 import lombok.RequiredArgsConstructor;
@@ -50,13 +55,12 @@ public class BookingCommand {
             final StringBuilder sb = new StringBuilder();
             sb.append("Seats booked: ");
             for (int i = 0; i < bookedSeats.size(); i++) {
-                sb.append(bookedSeats.get(i));
+                sb.append("(").append(bookedSeats.get(i)).append(")");
                 if (i != bookedSeats.size() - 1) {
                     sb.append(", ");
                 }
             }
             sb.append("; the price for this booking is ")
-                    .append(price)
                     .append(price).append(" HUF");
 
             return sb.toString();

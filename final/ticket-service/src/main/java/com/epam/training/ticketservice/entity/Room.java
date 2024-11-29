@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
 
 
 @Entity
@@ -23,7 +24,9 @@ public class Room implements PriceComponentAttachable {
 
     private int numberOfSeatColumns;
 
+
     @ManyToOne
+    @JoinColumn(name = "price_component_name")
     private PriceComponent priceComponent;
 
     public PriceComponent getPriceComponent() {

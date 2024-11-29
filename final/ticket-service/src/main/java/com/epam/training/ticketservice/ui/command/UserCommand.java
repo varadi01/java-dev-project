@@ -48,6 +48,9 @@ public class UserCommand {
     @ShellMethod(key = "sign out")
     @ShellMethodAvailability("isLoggedIn")
     protected String signOut() {
+        if (!viewerService.isSignedIn()) {
+            return "You are not signed in";
+        }
         viewerService.signOutViewer();
         return "Signed out";
     }
@@ -55,11 +58,14 @@ public class UserCommand {
     @ShellMethod(key = "describe account")
     @ShellMethodAvailability("isLoggedIn")
     protected String describe() {
+        if (!viewerService.isSignedIn()) {
+            return "You are not signed in";
+        }
         return viewerService.describe();
     }
 
     private Availability isLoggedIn() {
-        return viewerService.isSignedIn() ? Availability.available()
+        return true ? Availability.available()
                 :
                 Availability.unavailable("You are not signed in");
     }

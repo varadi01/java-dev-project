@@ -11,6 +11,9 @@ import javax.persistence.ElementCollection;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.FetchType;
 
 import java.util.List;
 
@@ -21,6 +24,7 @@ import java.util.List;
 public class Booking {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
@@ -29,7 +33,7 @@ public class Booking {
     @ManyToOne
     private Screening screening;
 
-    @ElementCollection(targetClass = String.class)
+    @ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "booking_seats", joinColumns = @JoinColumn(name = "booking_id"))
     @Column(name = "booked_seats", nullable = false)
     private List<String> bookedSeats;
@@ -48,7 +52,7 @@ public class Booking {
         final StringBuilder sb = new StringBuilder();
         sb.append("Seats ");
         for (int i = 0; i < bookedSeats.size(); i++) {
-            sb.append(bookedSeats.get(i));
+            sb.append("(").append(bookedSeats.get(i)).append(")");
             if (i != bookedSeats.size() - 1) {
                 sb.append(", ");
             }

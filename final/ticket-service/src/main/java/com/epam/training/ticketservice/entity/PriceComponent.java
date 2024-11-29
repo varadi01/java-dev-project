@@ -18,5 +18,5 @@ public class PriceComponent {
     @Id
     private String name;
 
-    private int value;
+    private int componentValue;
 }

@@ -67,10 +67,12 @@ public class ViewerService {
 
         var bookings = bookingService.getBookingsByViewer(signedInAs.getUsername());
 
+        var sb = new StringBuilder("Signed in with account '" + signedInAs.getUsername() + "'").append("\n");
         if (bookings.isEmpty()) {
-            return "You have not booked any tickets yet";
+            sb.append("You have not booked any tickets yet");
+            return sb.toString();
         }
-        var sb = new StringBuilder("Signed in with account '" + signedInAs.getUsername() + "'");
+        sb.append("Your previous bookings are").append("\n");
         for (var booking : bookings) {
             sb.append(booking.toString()).append("\n");
         }

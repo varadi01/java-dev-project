@@ -35,21 +35,15 @@ public class ScreeningService {
 
         for (Screening existingScreening : existingScreenings) {
             var exStartTime = existingScreening.getStartDateTime();
-            var exEndTime = existingScreening.getStartDateTime().plusMinutes(screening.getMovie().getLengthInMinutes());
+            var exEndTime = exStartTime.plusMinutes(existingScreening.getMovie().getLengthInMinutes());
 
-            if (exStartTime.isAfter(startTime) && exEndTime.isBefore(endTime) // [ ( ) ]
-                    ||
-                    exStartTime.isBefore(startTime) && exEndTime.isBefore(endTime) // ( [ ) ]
-                    ||
-                    exStartTime.isBefore(endTime) && exEndTime.isAfter(endTime) // [ ( ] )
-                    ||
-                    exStartTime.isBefore(startTime) && exEndTime.isAfter(endTime)) { // ( [ ] )
-
+            if (!(endTime.isBefore(exStartTime) || startTime.isAfter(exEndTime))) {
                 throw new ScreeningException("There is an overlapping screening");
             }
 
-            if (exEndTime.plusMinutes(11).isAfter(startTime)) {
-                throw new ScreeningException("This would start in the break period after another screening in this room");
+            if (startTime.isAfter(exEndTime.plusMinutes(-1)) && startTime.isBefore(exEndTime.plusMinutes(10))) {
+                var text = "This would start in the break period after another screening in this room";
+                throw new ScreeningException(text);
             }
         }
 

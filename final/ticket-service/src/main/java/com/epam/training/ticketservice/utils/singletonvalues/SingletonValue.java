@@ -18,5 +18,5 @@ public class SingletonValue {
     @Id
     private String name;
 
-    private String value;
+    private String singleValue;
 }

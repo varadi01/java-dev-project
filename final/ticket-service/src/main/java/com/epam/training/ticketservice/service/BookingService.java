@@ -39,7 +39,7 @@ public class BookingService {
         for (var seat : bookedSeats) {
             for (var seatToBeBooked : seatsToBeBooked) {
                 if (seat.equals(seatToBeBooked)) {
-                    throw new BookingException("Seat " + seat + " is already taken");
+                    throw new BookingException("Seat (" + seat + ") is already taken");
                 }
             }
         }

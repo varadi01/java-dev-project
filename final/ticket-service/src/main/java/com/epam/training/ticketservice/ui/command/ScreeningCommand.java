@@ -29,7 +29,6 @@ public class ScreeningCommand {
     @ShellMethodAvailability("isLoggedInAsPrivileged")
     protected String createScreening(String movieTitle, String roomName, String startTime) {
         startTime = startTime.replace(" ", "T");
-        System.out.println(startTime);
         try {
             screeningService.saveScreening(new Screening(
                     getMovieByTitle(movieTitle),

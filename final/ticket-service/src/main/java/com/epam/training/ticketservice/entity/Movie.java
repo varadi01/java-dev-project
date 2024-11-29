@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
 
 
 @Entity
@@ -24,7 +25,12 @@ public class Movie implements PriceComponentAttachable {
     private int lengthInMinutes;
 
     @ManyToOne
+    @JoinColumn(name = "price_component_name")
     private PriceComponent priceComponent;
+
+    public PriceComponent getPriceComponent() {
+        return priceComponent != null ? priceComponent : new PriceComponent("_", 0);
+    }
 
     public Movie(String title, String genre, int lengthInMinutes) {
         this.title = title;

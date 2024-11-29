@@ -3,7 +3,11 @@ package com.epam.training.ticketservice.ui.command;
 import com.epam.training.ticketservice.entity.Movie;
 import com.epam.training.ticketservice.entity.PriceComponent;
 import com.epam.training.ticketservice.entity.Room;
-import com.epam.training.ticketservice.service.*;
+import com.epam.training.ticketservice.service.PriceService;
+import com.epam.training.ticketservice.service.ViewerService;
+import com.epam.training.ticketservice.service.ScreeningService;
+import com.epam.training.ticketservice.service.MovieService;
+import com.epam.training.ticketservice.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.Availability;
 import org.springframework.shell.standard.ShellComponent;
@@ -58,13 +62,13 @@ public class PriceCommand {
 
     @ShellMethod(key = "attach price component to screening")
     @ShellMethodAvailability("isLoggedInAsPrivileged")
-    protected String attachPriceComponentToScreening(String componentName, String movieTitle, String roomName, String startTime) {
-        startTime = startTime.replace(" ", "T");
+    protected String attachPriceComponentToScreening(String componentName, String title, String room, String time) {
+        time = time.replace(" ", "T");
 
         var screening = screeningService.getScreeningByParameters(getMovieByTitle(
-                        movieTitle),
-                getRoomByName(roomName),
-                LocalDateTime.parse(startTime)
+                        title),
+                getRoomByName(room),
+                LocalDateTime.parse(time)
         );
 
         priceService.attachPriceComponent(

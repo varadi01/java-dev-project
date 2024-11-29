@@ -9,6 +9,7 @@ public class SingletonValueService {
 
     public SingletonValueService(SingletonValueRepository singletonValueRepository) {
         this.singletonValueRepository = singletonValueRepository;
+        saveSingletonValue(new SingletonValue("base_price", "1500"));
     }
 
     public SingletonValue getSingletonValueByName(String name) {

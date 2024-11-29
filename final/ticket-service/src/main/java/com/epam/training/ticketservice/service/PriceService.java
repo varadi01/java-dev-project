@@ -24,13 +24,13 @@ public class PriceService {
     private final SingletonValueService singletonValueService;
 
     public PriceService(PriceComponentRepository priceComponentRepository, RoomService roomService,
-                        MovieService movieService, ScreeningService screeningService, SingletonValueService singletonValueService) {
+                        MovieService movieService, ScreeningService screeningService, SingletonValueService svs) {
         this.priceComponentRepository = priceComponentRepository;
 
         this.roomService = roomService;
         this.movieService = movieService;
         this.screeningService = screeningService;
-        this.singletonValueService = singletonValueService;
+        this.singletonValueService = svs;
     }
 
     public void updateBasePrice(int newValue) {
@@ -41,9 +41,8 @@ public class PriceService {
         priceComponentRepository.save(priceComponent);
     }
 
-    public <T extends PriceComponentAttachable> void attachPriceComponent(PriceComponent priceComponent, T target) {
-        //TODO test
-        target.setPriceComponent(priceComponent);
+    public void attachPriceComponent(PriceComponent priceComponent, PriceComponentAttachable target) {
+        target.setPriceComponent(priceComponent); //TODO not working
     }
 
     public PriceComponent getPriceComponentByName(String name) {
@@ -51,19 +50,17 @@ public class PriceService {
     }
 
     public int getTicketPrice(String movieTitle, String roomName, LocalDateTime startDateTime) {
-        int totalPrice = Integer.parseInt(singletonValueService.getSingletonValueByName("base_price").getValue());
+        int totalPrice = Integer.parseInt(singletonValueService.getSingletonValueByName("base_price").getSingleValue());
 
-        //meh
         Room room = roomService.getRoomByName(roomName);
         Movie movie = movieService.getMovieByTitle(movieTitle);
         Screening screening = screeningService.getScreeningByParameters(movie, room, startDateTime);
 
-        //TODO i did something but it still might be nullreference
-        totalPrice += room.getPriceComponent().getValue()
+        totalPrice += room.getPriceComponent().getComponentValue()
                 +
-                movie.getPriceComponent().getValue()
+                movie.getPriceComponent().getComponentValue()
                 +
-                screening.getPriceComponent().getValue();
+                screening.getPriceComponent().getComponentValue();
 
         return totalPrice;
     }

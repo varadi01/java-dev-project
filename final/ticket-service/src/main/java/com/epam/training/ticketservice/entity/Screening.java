@@ -38,10 +38,15 @@ public class Screening implements PriceComponentAttachable {
     private LocalDateTime startDateTime;
 
     @ManyToOne
+    @JoinColumn(name = "price_component_name")
     private PriceComponent priceComponent;
 
     @OneToMany
     private Collection<Booking> bookings;
+
+    public PriceComponent getPriceComponent() {
+        return priceComponent != null ? priceComponent : new PriceComponent("_", 0);
+    }
 
     public Screening(Movie movie, Room room, LocalDateTime startDateTime) {
         this.movie = movie;
