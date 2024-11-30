@@ -32,7 +32,7 @@ public class BookingCommand {
 
     @ShellMethod(key = "book")
     @ShellMethodAvailability("isLoggedIn")
-    protected String makeBooking(String movieTitle, String roomName, String startTimeString, String seatsToBeBooked) {
+    public String makeBooking(String movieTitle, String roomName, String startTimeString, String seatsToBeBooked) {
         var startTime = DateConverter.convertToLocalDateTime(startTimeString);
 
         var screening = screeningService.getScreeningByParameters(getMovieByTitle(
@@ -41,7 +41,7 @@ public class BookingCommand {
                 startTime
         );
 
-        var bookedSeats = List.of(seatsToBeBooked.split(" ")); //TODO TEST
+        var bookedSeats = List.of(seatsToBeBooked.split(" "));
 
         var price = priceService.getTicketPrice(movieTitle, roomName, startTime) * bookedSeats.size();
 

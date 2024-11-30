@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
+import java.util.Objects;
 
 
 @Entity
@@ -36,6 +37,54 @@ public class Movie implements PriceComponentAttachable {
         this.title = title;
         this.genre = genre;
         this.lengthInMinutes = lengthInMinutes;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public void setLengthInMinutes(int lengthInMinutes) {
+        this.lengthInMinutes = lengthInMinutes;
+    }
+
+    @Override
+    public void setPriceComponent(PriceComponent priceComponent) {
+        this.priceComponent = priceComponent;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public int getLengthInMinutes() {
+        return lengthInMinutes;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Movie movie)) {
+            return false;
+        }
+        return lengthInMinutes == movie.lengthInMinutes
+                && Objects.equals(title, movie.title)
+                && Objects.equals(genre, movie.genre)
+                && Objects.equals(priceComponent, movie.priceComponent);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, genre, lengthInMinutes, priceComponent);
     }
 
     @Override

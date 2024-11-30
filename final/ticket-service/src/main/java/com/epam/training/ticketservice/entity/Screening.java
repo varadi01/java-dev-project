@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
 @Table(name = "screening")
@@ -52,6 +53,60 @@ public class Screening implements PriceComponentAttachable {
         this.movie = movie;
         this.room = room;
         this.startDateTime = startDateTime;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Movie getMovie() {
+        return movie;
+    }
+
+    public void setMovie(Movie movie) {
+        this.movie = movie;
+    }
+
+    public Room getRoom() {
+        return room;
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
+    }
+
+    public LocalDateTime getStartDateTime() {
+        return startDateTime;
+    }
+
+    public void setStartDateTime(LocalDateTime startDateTime) {
+        this.startDateTime = startDateTime;
+    }
+
+    public void setPriceComponent(PriceComponent priceComponent) {
+        this.priceComponent = priceComponent;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Screening screening)) {
+            return false;
+        }
+        return Objects.equals(id, screening.id)
+                && Objects.equals(movie, screening.movie)
+                && Objects.equals(room, screening.room)
+                && Objects.equals(startDateTime, screening.startDateTime)
+                && Objects.equals(priceComponent, screening.priceComponent)
+                && Objects.equals(bookings, screening.bookings);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, movie, room, startDateTime, priceComponent, bookings);
     }
 
     @Override

@@ -12,21 +12,24 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class ScreeningService {
+public class ScreeningService implements IScreeningService {
     private final ScreeningRepository screeningRepository;
 
     public ScreeningService(ScreeningRepository screeningRepository) {
         this.screeningRepository = screeningRepository;
     }
 
+    @Override
     public List<Screening> getAllScreenings() {
         return screeningRepository.findAll();
     }
 
+    @Override
     public Screening getScreeningByParameters(Movie movie, Room room, LocalDateTime dateTime) {
         return screeningRepository.findScreeningByRoomAndMovieAndStartDateTime(room, movie, dateTime);
     }
 
+    @Override
     public void saveScreening(Screening screening) throws ScreeningException {
         var existingScreenings = screeningRepository.findScreeningByRoom(screening.getRoom());
 
@@ -50,6 +53,7 @@ public class ScreeningService {
         screeningRepository.save(screening);
     }
 
+    @Override
     @Transactional
     public void deleteScreening(Long screeningId) {
         screeningRepository.deleteById(screeningId);

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 
 @Service
-public class PriceService {
+public class PriceService implements IPriceService {
 
     private final PriceComponentRepository priceComponentRepository;
 
@@ -33,35 +33,45 @@ public class PriceService {
         this.singletonValueService = svs;
     }
 
+    @Override
     public void updateBasePrice(int newValue) {
         singletonValueService.updateSingletonValue(new SingletonValue("base_price", String.valueOf(newValue)));
     }
 
+    @Override
     public void savePriceComponent(PriceComponent priceComponent) {
         priceComponentRepository.save(priceComponent);
     }
 
+    @Override
     public void attachPriceComponent(PriceComponent priceComponent, PriceComponentAttachable target) {
         target.setPriceComponent(priceComponent); //TODO not working
     }
 
+    @Override
     public PriceComponent getPriceComponentByName(String name) {
         return priceComponentRepository.findByName(name);
     }
 
+    @Override
     public int getTicketPrice(String movieTitle, String roomName, LocalDateTime startDateTime) {
-        int totalPrice = Integer.parseInt(singletonValueService.getSingletonValueByName("base_price").getSingleValue());
+        try {
+            var bp = "base_price";
+            int totalPrice = Integer.parseInt(singletonValueService.getSingletonValueByName(bp).getSingleValue());
 
-        Room room = roomService.getRoomByName(roomName);
-        Movie movie = movieService.getMovieByTitle(movieTitle);
-        Screening screening = screeningService.getScreeningByParameters(movie, room, startDateTime);
+            Room room = roomService.getRoomByName(roomName);
+            Movie movie = movieService.getMovieByTitle(movieTitle);
+            Screening screening = screeningService.getScreeningByParameters(movie, room, startDateTime);
 
-        totalPrice += room.getPriceComponent().getComponentValue()
-                +
-                movie.getPriceComponent().getComponentValue()
-                +
-                screening.getPriceComponent().getComponentValue();
+            totalPrice += room.getPriceComponent().getComponentValue()
+                    +
+                    movie.getPriceComponent().getComponentValue()
+                    +
+                    screening.getPriceComponent().getComponentValue();
 
-        return totalPrice;
+            return totalPrice;
+        } catch (Exception e) {
+            return 0;
+        }
     }
 }

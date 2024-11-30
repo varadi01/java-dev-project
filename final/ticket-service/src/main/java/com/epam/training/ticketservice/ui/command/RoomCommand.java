@@ -18,27 +18,27 @@ public class RoomCommand {
 
     @ShellMethod(key = "create room")
     @ShellMethodAvailability("isLoggedInAsPrivileged")
-    protected String createMovie(String name, int numberOfRows, int numberOfColumns) {
+    protected String createRoom(String name, int numberOfRows, int numberOfColumns) {
         roomService.saveRoom(new Room(name, numberOfRows, numberOfColumns));
         return "Room created";
     }
 
     @ShellMethod(key = "update room")
     @ShellMethodAvailability("isLoggedInAsPrivileged")
-    protected String updateMovie(String name, int numberOfRows, int numberOfColumns) {
+    protected String updateRoom(String name, int numberOfRows, int numberOfColumns) {
         roomService.updateRoom(new Room(name, numberOfRows, numberOfColumns));
         return "Room updated";
     }
 
     @ShellMethod(key = "delete room")
     @ShellMethodAvailability("isLoggedInAsPrivileged")
-    protected String deleteMovie(String roomName) {
+    protected String deleteRoom(String roomName) {
         roomService.deleteRoom(roomName);
         return "Room deleted";
     }
 
     @ShellMethod(key = "list rooms")
-    protected String listMovies() {
+    protected String listRooms() {
         var rooms = roomService.getAllRooms();
         if (rooms.isEmpty()) {
             return "There are no rooms at the moment";

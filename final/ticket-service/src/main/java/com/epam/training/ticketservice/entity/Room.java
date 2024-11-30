@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
+import java.util.Objects;
 
 
 @Entity
@@ -41,6 +42,54 @@ public class Room implements PriceComponentAttachable {
         this.name = name;
         this.numberOfSeatRows = numberOfSeatRows;
         this.numberOfSeatColumns = numberOfSeatColumns;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setNumberOfSeatRows(int numberOfSeatRows) {
+        this.numberOfSeatRows = numberOfSeatRows;
+    }
+
+    public void setNumberOfSeatColumns(int numberOfSeatColumns) {
+        this.numberOfSeatColumns = numberOfSeatColumns;
+    }
+
+    @Override
+    public void setPriceComponent(PriceComponent priceComponent) {
+        this.priceComponent = priceComponent;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getNumberOfSeatRows() {
+        return numberOfSeatRows;
+    }
+
+    public int getNumberOfSeatColumns() {
+        return numberOfSeatColumns;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Room room)) {
+            return false;
+        }
+        return numberOfSeatRows == room.numberOfSeatRows
+                && numberOfSeatColumns == room.numberOfSeatColumns
+                && Objects.equals(name, room.name)
+                && Objects.equals(priceComponent, room.priceComponent);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, numberOfSeatRows, numberOfSeatColumns, priceComponent);
     }
 
     @Override

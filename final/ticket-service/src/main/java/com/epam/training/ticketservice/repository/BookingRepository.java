@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, Long> {
 
-    public List<Booking> findAllByViewerUsername(String viewerName); //TODO TEST
+    public List<Booking> findAllByViewerUsername(String viewerName);
 
     public List<Booking> findAllByScreening(Screening screening);
 }

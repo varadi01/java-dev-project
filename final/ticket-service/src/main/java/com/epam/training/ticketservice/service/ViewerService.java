@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class ViewerService {
+public class ViewerService implements IViewerService {
     private final ViewerRepository viewerRepository;
 
     private final BookingService bookingService;
@@ -18,6 +18,7 @@ public class ViewerService {
 
     private Viewer signedInAs;
 
+    @Override
     public void signupViewer(Viewer viewer) throws ViewerException {
         var user = viewerRepository.findByUsername(viewer.getUsername());
 
@@ -27,6 +28,7 @@ public class ViewerService {
         viewerRepository.save(viewer);
     }
 
+    @Override
     public void signInViewer(Viewer viewer) throws ViewerException {
         var user = viewerRepository.findByUsername(viewer.getUsername());
 
@@ -42,6 +44,7 @@ public class ViewerService {
         }
     }
 
+    @Override
     public void signInAsPrivileged(Viewer viewer) throws ViewerException {
         if (viewer.getUsername().equals("admin") && viewer.getPassword().equals("admin")) {
             isSignedIn = true;
@@ -54,12 +57,14 @@ public class ViewerService {
         }
     }
 
+    @Override
     public void signOutViewer() {
         signedInAs = null;
         isSignedIn = false;
         isSignedInAsPrivileged = false;
     }
 
+    @Override
     public String describe() {
         if (isSignedInAsPrivileged) {
             return "Signed in with privileged account '" + signedInAs.getUsername() + "'";
@@ -79,14 +84,17 @@ public class ViewerService {
         return sb.toString();
     }
 
+    @Override
     public Boolean isSignedInAsPrivileged() {
         return isSignedInAsPrivileged;
     }
 
+    @Override
     public Boolean isSignedIn() {
         return isSignedIn;
     }
 
+    @Override
     public Viewer getSignedInViewer() {
         return signedInAs;
     }

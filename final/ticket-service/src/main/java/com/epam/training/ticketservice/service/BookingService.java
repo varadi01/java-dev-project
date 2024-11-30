@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class BookingService {
+public class BookingService implements IBookingService {
     private final BookingRepository bookingRepository;
     private final PriceService priceService;
 
@@ -18,14 +18,17 @@ public class BookingService {
         this.priceService = priceService;
     }
 
+    @Override
     public List<Booking> getAllBookings() {
         return bookingRepository.findAll();
     }
 
+    @Override
     public List<Booking> getBookingsByViewer(String viewerName) {
         return bookingRepository.findAllByViewerUsername(viewerName);
     }
 
+    @Override
     public void saveBooking(Booking booking) throws BookingException {
         var existingBookings = bookingRepository.findAllByScreening(booking.getScreening());
         var bookedSeats = new ArrayList<String>();

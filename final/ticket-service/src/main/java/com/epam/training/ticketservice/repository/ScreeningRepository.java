@@ -12,7 +12,6 @@ import java.util.List;
 @Repository
 public interface ScreeningRepository extends JpaRepository<Screening, Long> {
 
-    //TODO TEST
     public Screening findScreeningByRoomAndMovieAndStartDateTime(Room room, Movie movie, LocalDateTime startDate);
 
     public List<Screening> findScreeningByRoom(Room room);

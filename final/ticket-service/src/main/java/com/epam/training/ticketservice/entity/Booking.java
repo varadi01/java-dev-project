@@ -16,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.FetchType;
 
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "booking")
@@ -45,6 +46,62 @@ public class Booking {
         this.screening = screening;
         this.bookedSeats = bookedSeats;
         this.price = price;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Viewer getViewer() {
+        return viewer;
+    }
+
+    public void setViewer(Viewer viewer) {
+        this.viewer = viewer;
+    }
+
+    public Screening getScreening() {
+        return screening;
+    }
+
+    public void setScreening(Screening screening) {
+        this.screening = screening;
+    }
+
+    public List<String> getBookedSeats() {
+        return bookedSeats;
+    }
+
+    public void setBookedSeats(List<String> bookedSeats) {
+        this.bookedSeats = bookedSeats;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Booking booking)) {
+            return false;
+        }
+        return price == booking.price
+                && Objects.equals(id, booking.id)
+                && Objects.equals(viewer, booking.viewer)
+                && Objects.equals(screening, booking.screening)
+                && Objects.equals(bookedSeats, booking.bookedSeats);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, viewer, screening, bookedSeats, price);
     }
 
     @Override
