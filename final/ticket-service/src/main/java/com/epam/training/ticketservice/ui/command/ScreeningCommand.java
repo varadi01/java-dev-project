@@ -7,6 +7,7 @@ import com.epam.training.ticketservice.service.MovieService;
 import com.epam.training.ticketservice.service.RoomService;
 import com.epam.training.ticketservice.service.ScreeningService;
 import com.epam.training.ticketservice.service.ViewerService;
+import com.epam.training.ticketservice.utils.DateConverter;
 import com.epam.training.ticketservice.utils.exceptions.ScreeningException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.Availability;
@@ -28,12 +29,11 @@ public class ScreeningCommand {
     @ShellMethod(key = "create screening")
     @ShellMethodAvailability("isLoggedInAsPrivileged")
     protected String createScreening(String movieTitle, String roomName, String startTime) {
-        startTime = startTime.replace(" ", "T");
         try {
             screeningService.saveScreening(new Screening(
                     getMovieByTitle(movieTitle),
                     getRoomByName(roomName),
-                    LocalDateTime.parse(startTime) //TODO test
+                    DateConverter.convertToLocalDateTime(startTime)
             ));
         } catch (ScreeningException e) {
             return e.getMessage();
@@ -44,12 +44,10 @@ public class ScreeningCommand {
     @ShellMethod(key = "delete screening")
     @ShellMethodAvailability("isLoggedInAsPrivileged")
     protected String deleteScreening(String movieTitle, String roomName, String startTime) {
-        startTime = startTime.replace(" ", "T");
-
         var screening = screeningService.getScreeningByParameters(
                 getMovieByTitle(movieTitle),
                 getRoomByName(roomName),
-                LocalDateTime.parse(startTime)
+                DateConverter.convertToLocalDateTime(startTime)
         );
 
         if (screening == null) {
